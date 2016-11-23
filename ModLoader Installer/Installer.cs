@@ -66,6 +66,15 @@ namespace spaar.ModLoader.Installer
           new DirectoryInfo(extractDir + "/Resources/"),
           new DirectoryInfo(besiegeDir + "/Besiege_Data/Mods/Resources/"));
       }
+
+      if (Directory.Exists(extractDir + "/Blocks/"))
+      {
+        Directory.CreateDirectory(besiegeDir + "/Besiege_Data/Mods/Blocks/");
+
+        CopyFilesRecursively(new DirectoryInfo(extractDir + "/Blocks/"),
+          new DirectoryInfo(besiegeDir + "/Besiege_Data/Mods/Blocks"));
+      }
+
     }
 
     public static void UninstallModLoader(string besiegeLocation)
@@ -81,6 +90,14 @@ namespace spaar.ModLoader.Installer
           besiegeDir + "/Besiege_Data/Managed/Assembly-UnityScript.dll.original",
           besiegeDir + "/Besiege_Data/Managed/Assembly-UnityScript.dll");
 
+        if (File.Exists(besiegeDir + "/Besiege_Data/Managed/Assembly-CSharp-firstpass.dll.original"))
+        {
+          File.Delete(besiegeDir + "/Besiege_Data/Managed/Assembly-CSharp-firstpass.dll");
+          File.Move(
+            besiegeDir + "/Besiege_Data/Managed/Assembly-CSharp-firstpass.dll.original",
+            besiegeDir + "/Besiege_Data/Managed/Assembly-CSharp-firstpass.dll");
+        }
+
         // Delete SpaarModLoader.dll
         File.Delete(besiegeDir + "/Besiege_Data/Mods/SpaarModLoader.dll");
 
@@ -89,6 +106,12 @@ namespace spaar.ModLoader.Installer
         {
           Directory.Delete(
             besiegeDir + "/Besiege_Data/Mods/Resources/ModLoader/", true);
+        }
+        if (Directory.Exists(
+          besiegeDir + "/Besiege_Data/Mods/Blocks/BLR/"))
+        {
+          Directory.Delete(
+            besiegeDir + "/Besiege_Data/Mods/Blocks/BLR/", true);
         }
       }
     }
@@ -100,7 +123,7 @@ namespace spaar.ModLoader.Installer
       foreach (DirectoryInfo dir in source.GetDirectories())
         CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
       foreach (FileInfo file in source.GetFiles())
-        file.CopyTo(Path.Combine(target.FullName, file.Name));
+        file.CopyTo(Path.Combine(target.FullName, file.Name), true);
     }
   }
 }

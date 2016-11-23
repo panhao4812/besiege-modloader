@@ -1,3 +1,52 @@
+1.5.4
+=====
+- Update for Besiege v0.4 compatibility
+- [BUGFIX] Numpad keys can now be used in the key mapper
+
+1.5.3
+=====
+- Update for Besiege v0.35 compatibility
+
+1.5.2
+=====
+- Update for Besiege v0.32 Hotfix C compatibility
+- [BUGFIX] Fix pin blocks always displaying interception warning
+- [BUGFIX] Include Old Sandbox and Barren Expanse in zone handling API
+- [API] Add MirrorVisuals and MirrorColliders method to BlockScript
+
+1.5.1
+=====
+- Fix missing block loader resources
+
+1.5.0
+=====
+- Update for Besiege v0.32 Hotfix B compatibility
+- [Feature] Integrate the block loader by TheGuysYouDespise into the mod loader
+
+1.4.4
+=====
+- Update for Besiege v0.32 Patch 1 compatibility
+
+1.4.3
+=====
+- [BUGFIX] Fix update checker sometimes crashing due to a stack overflow
+
+1.4.2
+=====
+- Update for Besiege v0.32 compatibility
+- [BUGFIX] Fix pressing enter not working on Macs
+
+1.4.1
+=====
+- Update for Besiege v0.3 Patch 1 compatibility
+
+1.4.0
+=====
+- Update for Besiege v0.3 compatibility
+- [API] Add ModConsole.ForceWriteToDisk() method
+- [Enhancement] Add F1 through F15 as possibly keys in the keymapper
+
+
 1.3.3
 =====
 - Update for Besiege v0.27 compatibility

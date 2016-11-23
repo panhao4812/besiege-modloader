@@ -230,8 +230,8 @@ namespace spaar.ModLoader.Internal.Tools
         {
           var editor = (TextEditor)GUIUtility.GetStateObject(typeof(TextEditor),
             GUIUtility.keyboardControl);
-          editor.pos = commandText.Length + 1;
-          editor.selectPos = commandText.Length + 1;
+          editor.selectIndex = commandText.Length + 1;
+          editor.cursorIndex = commandText.Length + 1;
           moveCursorNextFrame = false;
           skippedFrame = false;
           GUI.FocusControl("ConsoleInput");
@@ -243,7 +243,7 @@ namespace spaar.ModLoader.Internal.Tools
         GUI.FocusControl("ConsoleInput");
       }
 
-      if (input.IndexOfAny(new char[] { '\n', '\r' }) != -1)
+      if (Event.current.isKey && Event.current.keyCode == KeyCode.Return)
       {
         commandText = "";
         Commands.HandleCommand(input.Replace("\n", "").Replace("\r", ""));
@@ -318,6 +318,11 @@ namespace spaar.ModLoader.Internal.Tools
 
 #if DEV_BUILD
     private void OnApplicationQuit()
+    {
+      WriteMessagesToDisk();
+    }
+
+    public void WriteMessagesToDisk()
     {
       if (!Directory.Exists(Application.dataPath + "/Mods/Debug"))
       {

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace spaar.ModLoader
 {
@@ -63,22 +64,6 @@ namespace spaar.ModLoader
       }
     }
 
-    // TODO: v0.24
-    //private static BlockInfoController _boi;
-    ///// <summary>
-    ///// Reference to the BlockInfoController instance of the current scene.
-    ///// Null if there is no BlockInfoController in the current scene.
-    ///// </summary>
-    //public static BlockInfoController BlockInfoController
-    //{
-    //  get
-    //  {
-    //    if (_boi == null)
-    //      _boi = FindObjectOfType<BlockInfoController>();
-    //    return _boi;
-    //  }
-    //}
-
     /// <summary>
     /// Whether the game is currently simulating.
     /// </summary>
@@ -86,7 +71,7 @@ namespace spaar.ModLoader
     {
       get
       {
-        return AddPiece.isSimulating;
+        return StatMaster.isSimulating;
       }
     }
 
@@ -142,52 +127,67 @@ namespace spaar.ModLoader
 
     public static event OnBlockRemoved OnBlockRemoved;
 
+    private static Zone barrenExpanse = new Zone(-1, 7, "Barren Expanse",
+      Island.Sandbox);
+    private static Zone oldSandbox = new Zone(-2, 6, "Old Sandbox",
+      Island.Sandbox);
     private static Zone[] zones = {
-      new Zone(0, 30, "Sandbox", Island.Sandbox),
+      new Zone(0, 5, "Sandbox", Island.Sandbox),
 
-      new Zone(1, 5, "Southern Cottage", Island.Ipsilon),
-      new Zone(2, 6, "Mill", Island.Ipsilon),
-      new Zone(3, 7, "Old Howl Battlefield", Island.Ipsilon),
-      new Zone(4, 8, "Perimeter Wall", Island.Ipsilon),
-      new Zone(5, 9, "The Queen's Fodder", Island.Ipsilon),
-      new Zone(6, 10, "Old Mining Site", Island.Ipsilon),
-      new Zone(7, 11, "Standing Stone", Island.Ipsilon),
-      new Zone(8, 12, "Thinside Fort", Island.Ipsilon),
-      new Zone(9, 13, "Midlands Encampment", Island.Ipsilon),
-      new Zone(10, 14, "Lyre Peak", Island.Ipsilon),
-      new Zone(11, 15, "Highland Tower", Island.Ipsilon),
-      new Zone(12, 16, "Pine Lumber Site", Island.Ipsilon),
-      new Zone(13, 17, "Solomon's Flock", Island.Ipsilon),
-      new Zone(14, 18, "Marksman's Pass", Island.Ipsilon),
-      new Zone(15, 19, "Wynnfrith's Keep", Island.Ipsilon),
+      new Zone(1, 8, "Southern Cottage", Island.Ipsilon),
+      new Zone(2, 9, "Mill", Island.Ipsilon),
+      new Zone(3, 10, "Old Howl Battlefield", Island.Ipsilon),
+      new Zone(4, 11, "Perimeter Wall", Island.Ipsilon),
+      new Zone(5, 12, "The Queen's Fodder", Island.Ipsilon),
+      new Zone(6, 13, "Old Mining Site", Island.Ipsilon),
+      new Zone(7, 14, "Standing Stone", Island.Ipsilon),
+      new Zone(8, 15, "Thinside Fort", Island.Ipsilon),
+      new Zone(9, 16, "Midlands Encampment", Island.Ipsilon),
+      new Zone(10, 17, "Lyre Peak", Island.Ipsilon),
+      new Zone(11, 18, "Highland Tower", Island.Ipsilon),
+      new Zone(12, 19, "Pine Lumber Site", Island.Ipsilon),
+      new Zone(13, 20, "Solomon's Flock", Island.Ipsilon),
+      new Zone(14, 21, "Marksman's Pass", Island.Ipsilon),
+      new Zone(15, 22, "Wynnfrith's Keep", Island.Ipsilon),
 
-      new Zone(16, 20, "The Duke's Plea", Island.Tolbrynd),
-      new Zone(17, 21, "Southern Shrine", Island.Tolbrynd),
-      new Zone(18, 22, "Scouts of Tolbrynd", Island.Tolbrynd),
-      new Zone(19, 23, "The Duke's Prototypes", Island.Tolbrynd),
-      new Zone(20, 24, "The Duke's Dear Freighers", Island.Tolbrynd),
-      new Zone(21, 25, "Grand Crystal", Island.Tolbrynd),
-      new Zone(22, 26, "Farmer Gascoigne", Island.Tolbrynd),
-      new Zone(23, 27, "Village of Diom", Island.Tolbrynd),
-      new Zone(24, 28, "Midland Patrol", Island.Tolbrynd),
-      new Zone(25, 29, "Valley of the Wind", Island.Tolbrynd),
+      new Zone(16, 23, "The Duke's Plea", Island.Tolbrynd),
+      new Zone(17, 24, "Southern Shrine", Island.Tolbrynd),
+      new Zone(18, 25, "Scouts of Tolbrynd", Island.Tolbrynd),
+      new Zone(19, 26, "The Duke's Prototypes", Island.Tolbrynd),
+      new Zone(20, 27, "The Duke's Dear Freighers", Island.Tolbrynd),
+      new Zone(21, 28, "Grand Crystal", Island.Tolbrynd),
+      new Zone(22, 29, "Farmer Gascoigne", Island.Tolbrynd),
+      new Zone(23, 30, "Village of Diom", Island.Tolbrynd),
+      new Zone(24, 31, "Midland Patrol", Island.Tolbrynd),
+      new Zone(25, 32, "Valley of the Wind", Island.Tolbrynd),
+      new Zone(26, 33, "Odd Contraption", Island.Tolbrynd),
+      new Zone(27, 34, "Diom Well", Island.Tolbrynd),
+      new Zone(28, 35, "Surrounded", Island.Tolbrynd),
+      new Zone(29, 36, "Sacred Flame", Island.Tolbrynd),
+      new Zone(30, 37, "Argus' Grounds", Island.Tolbrynd),
+      new Zone(31, 38, "The Duke's Knowledge", Island.Tolbrynd),
+      new Zone(32, 39, "The Venerated Heart", Island.Tolbrynd),
+      new Zone(33, 40, "Shattered Field", Island.Tolbrynd),
+      new Zone(34, 41, "Aras' Refuge", Island.Tolbrynd),
 
-      new Zone(26, 30, "Odd Contraption", Island.Tolbrynd),
-      new Zone(27, 31, "Diom Well", Island.Tolbrynd),
-      new Zone(28, 32, "Surrounded", Island.Tolbrynd),
-      new Zone(29, 33, "Sacred Flame", Island.Tolbrynd),
-      new Zone(30, 34, "Argus' Grounds", Island.Tolbrynd),
+      new Zone(35, 42, "The Frozen Path", Island.Valfross),
+      new Zone(36, 43, "The Awakening Bells", Island.Valfross),
+      new Zone(37, 44, "Peculiar Clearing", Island.Valfross),
+      new Zone(38, 45, "The Martyr Knights", Island.Valfross),
     };
 
     /// <summary>
     /// Gets a Zone object representing the specified zone.
-    /// The Sandbox is Zone 0, all other zones are numbered as shown in the
-    /// level select screens.
+    /// The Sandbox is Zone 0, Barren Expanse is Zone -1
+    /// and the old sandbox is -2,
+    /// all other zones are numbered as shown in the level select screens.
     /// </summary>
     /// <param name="index">Index of the zone</param>
     /// <returns>Zone object for the specified zone.</returns>
     public static Zone GetZone(int index)
     {
+      if (index == -2) return oldSandbox;
+      if (index == -1) return barrenExpanse;
       return zones[index];
     }
 
@@ -199,13 +199,21 @@ namespace spaar.ModLoader
     public static Zone GetCurrentZone()
     {
       int index;
-      if (int.TryParse(Application.loadedLevelName, out index))
+      if (int.TryParse(SceneManager.GetActiveScene().name, out index))
       {
         return GetZone(index);
       }
-      else if (Application.loadedLevelName == "SANDBOX")
+      else if (SceneManager.GetActiveScene().name == "SANDBOX")
       {
         return GetZone(0);
+      }
+      else if (SceneManager.GetActiveScene().name == "BARREN EXPANSE")
+      {
+        return GetZone(-1);
+      }
+      else if (SceneManager.GetActiveScene().name == "SANDBOX OLD")
+      {
+        return GetZone(-2);
       }
       else
       {
@@ -216,6 +224,8 @@ namespace spaar.ModLoader
     private void Start()
     {
       Internal.ModLoader.MakeModule(this);
+
+      SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
 
@@ -283,7 +293,7 @@ namespace spaar.ModLoader
       }
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
       var addPiece = AddPiece;
       if (addPiece == null) return;

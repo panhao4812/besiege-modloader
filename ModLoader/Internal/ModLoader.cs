@@ -30,8 +30,8 @@ namespace spaar.ModLoader.Internal
     /// <summary>
     /// The currently running Besiege version.
     /// </summary>
-    public static readonly string BesiegeVersion = "v0.27";
-    public static readonly Version ModLoaderVersion = new Version(1, 3, 3);
+    public static readonly string BesiegeVersion = "v0.4";
+    public static readonly Version ModLoaderVersion = new Version(1, 5, 4);
 
     public override string Name { get { return "spaar's Mod Loader"; } }
 
@@ -78,6 +78,9 @@ namespace spaar.ModLoader.Internal
       // for the correct keys to use.
       console.EnableInterface();
 
+      var blockLoaderInfo = new TheGuysYouDespise.BlockLoaderInfo();
+      blockLoaderInfo.LoadBlockLoader();
+
       LoadMods();
 
       RegisterModManagementCommands();
@@ -96,7 +99,8 @@ namespace spaar.ModLoader.Internal
       foreach (var fileInfo in files)
       {
         if (!fileInfo.Name.EndsWith(".no.dll", StringComparison.CurrentCulture)
-          && fileInfo.Name != "SpaarModLoader.dll")
+          && fileInfo.Name != "SpaarModLoader.dll"
+          && fileInfo.Name != "BlockLoader.dll")
         {
           loadingOutput += LoadMod(fileInfo);
         }
@@ -345,7 +349,6 @@ namespace spaar.ModLoader.Internal
     /// <param name="comp"></param>
     public static void MakeModule(Component comp)
     {
-      DontDestroyOnLoad(comp);
       comp.transform.parent = Instance.transform;
     }
 
