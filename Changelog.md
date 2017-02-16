@@ -1,3 +1,17 @@
+1.6.2
+=====
+- Update for Besiege v0.42 Hotfix B compatibility
+
+1.6.1
+=====
+- Update for Besiege v0.42 Hotfix A compatibility
+- [BUGFIX] Fix the block loader throwing an ArgumentException under certain circumstances.
+
+1.6.0
+=====
+- Update for Besiege v0.42 compatibility
+- [API] Allow mods to keep references to OptionsButtons and SettingsButtons after they were created. Thanks @Lench for this.
+
 1.5.4
 =====
 - Update for Besiege v0.4 compatibility

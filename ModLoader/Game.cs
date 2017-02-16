@@ -127,12 +127,12 @@ namespace spaar.ModLoader
 
     public static event OnBlockRemoved OnBlockRemoved;
 
-    private static Zone barrenExpanse = new Zone(-1, 7, "Barren Expanse",
+    private static Zone barrenExpanse = new Zone(-1, 5, "Barren Expanse",
       Island.Sandbox);
     private static Zone oldSandbox = new Zone(-2, 6, "Old Sandbox",
       Island.Sandbox);
     private static Zone[] zones = {
-      new Zone(0, 5, "Sandbox", Island.Sandbox),
+      new Zone(0, 7, "Sandbox", Island.Sandbox),
 
       new Zone(1, 8, "Southern Cottage", Island.Ipsilon),
       new Zone(2, 9, "Mill", Island.Ipsilon),
@@ -299,6 +299,10 @@ namespace spaar.ModLoader
       if (addPiece == null) return;
 
       addPiece.sendSimulateMessage.Add(transform);
+
+      Debug.Log("Loaded scene: " + scene.name + " ("
+        + Application.loadedLevelName + ") with index " + scene.buildIndex
+        + " (" + Application.loadedLevel + ")");
 
       var global = GameObject.Find("GLOBAL");
       if (global != null)
